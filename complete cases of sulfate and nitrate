@@ -1,0 +1,20 @@
+complete<-function (directory, id=1:332) {
+    files<-list.files(path= directory, pattern = "*.csv", full.names = TRUE)    
+    nob<-numeric()
+    nobs<-numeric() ## setting up the nobs col
+    ## looping the files
+    for (i in id) {  
+        data<-read.csv(files[i], header = TRUE)
+        g<-as.numeric(complete.cases(data[,2],data[,3]))
+        nob[i]<-sum(g)
+    }
+    nobs<-nob[!is.na(nob)]
+    if (length(id) == 1) {
+        data.frame(cbind(id,nobs))
+        } else if (id[1]<=id[2]) {
+            data.frame(cbind(id,nobs))
+            } else {
+                nobs<-rev(nobs)
+                data.frame(cbind(id,nobs))
+        }
+}
