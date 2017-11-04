@@ -1,0 +1,17 @@
+corr<- function (directory,threshold=0) {
+    file<-list.files(path=directory, pattern = "*.csv",full.names = TRUE)
+    cors<-numeric()
+    for (i in 1:332) {
+        dat<-read.csv(file[i])
+        e<-complete.cases(dat[,2],dat[,3])
+        x<-as.numeric(e)
+        tot<-sum(x) ## counting the non-NA cases
+        if (tot>threshold) {
+            y<-dat[,2]
+            z<-dat[,3]
+            cors[i]<-cor(y[e],z[e])
+            cors<-cors[!is.na(cors)]
+        }
+    }
+print(cors)
+}
